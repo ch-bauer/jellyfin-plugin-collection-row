@@ -166,15 +166,15 @@
     }
 
     /**
-     * Mobile cards: a single always-visible play button in the bottom right,
-     * like native jellyfin-web mobile cards. No cardOverlayContainer wrapper
-     * and no -hover classes - those are what make buttons hover-only.
+     * Mobile cards: a single always-visible play button in the bottom right.
+     * Exact native cardBuilder markup - deliberately WITHOUT item data
+     * attributes: the click handler must resolve the item from the card div
+     * (which carries data-mediatype etc.); a button-level data-id would make
+     * it build an incomplete item that playback silently rejects.
      */
-    function buildMobilePlayButton(item, serverId) {
-        return '<button is="paper-icon-button-light" type="button" data-action="play" title="Play"'
-            + ' data-id="' + item.Id + '" data-serverid="' + serverId + '"'
-            + ' data-type="' + (item.Type || 'Movie') + '"'
-            + ' class="cardOverlayButton cardOverlayButton-br itemAction paper-icon-button-light">'
+    function buildMobilePlayButton() {
+        return '<button is="paper-icon-button-light" class="cardOverlayButton cardOverlayButton-br itemAction"'
+            + ' data-action="play" title="Play">'
             + '<span class="material-icons cardOverlayButtonIcon play_arrow" aria-hidden="true"></span></button>';
     }
 
@@ -268,7 +268,7 @@
         if (layout === 'desktop') {
             html += buildHoverOverlay(item, serverId);
         } else if (layout === 'mobile') {
-            html += buildMobilePlayButton(item, serverId);
+            html += buildMobilePlayButton();
         }
         html += '</div>';
         html += '<div class="cardText cardTextCentered cardText-first"><bdi>'
