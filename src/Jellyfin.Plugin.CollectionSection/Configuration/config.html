@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Collection Section</title>
+</head>
+<body>
+<div id="CollectionSectionConfigPage" data-role="page" class="page type-interior pluginConfigurationPage"
+     data-require="emby-checkbox,emby-button,emby-input,emby-select">
+    <div data-role="content">
+        <div class="content-primary">
+            <form id="CollectionSectionConfigForm">
+                <div class="verticalSection">
+                    <h2 class="sectionTitle">Collection Section</h2>
+                </div>
+
+                <div class="selectContainer">
+                    <select is="emby-select" id="CollectionSectionPosition" label="Section position">
+                        <option value="aboveCast">Above Cast &amp; Crew</option>
+                        <option value="belowCast">Below Cast &amp; Crew</option>
+                        <option value="top">Top of the details</option>
+                    </select>
+                </div>
+
+                <div class="selectContainer">
+                    <select is="emby-select" id="CollectionSectionHighlight" label="Highlight of the current item">
+                        <option value="ring">Frame around the poster</option>
+                        <option value="dim">Dim the other items</option>
+                        <option value="none">No highlight</option>
+                    </select>
+                </div>
+
+                <label class="checkboxContainer">
+                    <input is="emby-checkbox" type="checkbox" id="CollectionSectionIncludeSeries"/>
+                    <span>Also show the section on series detail pages</span>
+                </label>
+
+                <div class="verticalSection">
+                    <h3>Collections</h3>
+                    <p>The section is shown for every collection an item belongs to.
+                        Untick a collection below to hide its section.</p>
+                </div>
+                <div class="inputContainer">
+                    <input is="emby-input" type="text" id="CollectionSectionSearch"
+                           label="Search collections" autocomplete="off"/>
+                </div>
+                <div id="CollectionSectionList" class="checkboxList paperList"
+                     style="padding: 0.5em 1em;">
+                    <p>Loading collections&hellip;</p>
+                </div>
+                <br/>
+                <button is="emby-button" type="submit" class="raised button-submit block">
+                    <span>Save</span>
+                </button>
+            </form>
+        </div>
+    </div>
+    <script type="text/javascript">
+        (function () {
+            var pluginId = 'b9f0c474-e1a9-4a06-9c8a-3f1d2e5b7a10';
+
+            function normalizeId(id) {
+                return (id || '').toLowerCase().replace(/-/g, '');
+            }
+
+            function escapeHtml(text) {
+                var div = document.createElement('div');
+                div.textContent = text == null ? '' : String(text);
+                return div.innerHTML;
+            }
+
+            function loadPage(page) {
+                Dashboard.showLoadingMsg();
+
+                var collectionsUrl = ApiClient.getUrl('Items', {
+                    IncludeItemTypes: 'BoxSet',
+                    Recursive: true,
+                    SortBy: 'SortName',
+                    userId: ApiClient.getCurrentUserId()
+                });
+
+                Promise.all([
+                    ApiClient.getPluginConfiguration(pluginId),
+                    ApiClient.getJSON(collectionsUrl)
+                ]).then(function (results) {
+                    var config = results[0];
+                    var collections = (results[1] && results[1].Items) || [];
+                    var disabled = (config.DisabledCollectionIds || []).map(normalizeId);
+
+                    page.querySelector('#CollectionSectionPosition').value = config.SectionPosition || 'aboveCast';
+                    page.querySelector('#CollectionSectionHighlight').value = config.HighlightStyle || 'ring';
+                    page.querySelector('#CollectionSectionIncludeSeries').checked = !!config.IncludeSeries;
+
+                    var list = page.querySelector('#CollectionSectionList');
+
+                    if (!collections.length) {
+                        list.innerHTML = '<p>No collections found in your libraries.</p>';
+                        Dashboard.hideLoadingMsg();
+                        return;
+                    }
+
+                    var html = '';
+                    collections.forEach(function (collection) {
+                        var checked = disabled.indexOf(normalizeId(collection.Id)) === -1 ? ' checked' : '';
+                        html += '<label style="display:block; margin: 0.4em 0;">'
+                            + '<input is="emby-checkbox" type="checkbox" class="collectionSectionCheckbox"'
+                            + ' data-collectionid="' + collection.Id + '"' + checked + ' />'
+                            + '<span>' + escapeHtml(collection.Name) + '</span>'
+                            + '</label>';
+                    });
+                    list.innerHTML = html;
+                    page.querySelector('#CollectionSectionSearch').value = '';
+                    Dashboard.hideLoadingMsg();
+                }).catch(function () {
+                    Dashboard.hideLoadingMsg();
+                    page.querySelector('#CollectionSectionList').innerHTML =
+                        '<p>Failed to load collections.</p>';
+                });
+            }
+
+            function save(page) {
+                Dashboard.showLoadingMsg();
+
+                ApiClient.getPluginConfiguration(pluginId).then(function (config) {
+                    config.SectionPosition = page.querySelector('#CollectionSectionPosition').value;
+                    config.HighlightStyle = page.querySelector('#CollectionSectionHighlight').value;
+                    config.IncludeSeries = page.querySelector('#CollectionSectionIncludeSeries').checked;
+
+                    var disabled = [];
+                    page.querySelectorAll('.collectionSectionCheckbox').forEach(function (checkbox) {
+                        if (!checkbox.checked) {
+                            disabled.push(checkbox.getAttribute('data-collectionid'));
+                        }
+                    });
+                    config.DisabledCollectionIds = disabled;
+
+                    ApiClient.updatePluginConfiguration(pluginId, config).then(function (result) {
+                        Dashboard.processPluginConfigurationUpdateResult(result);
+                    });
+                });
+            }
+
+            var page = document.querySelector('#CollectionSectionConfigPage');
+
+            page.addEventListener('pageshow', function () {
+                loadPage(page);
+            });
+
+            page.querySelector('#CollectionSectionSearch').addEventListener('input', function () {
+                var query = this.value.toLowerCase();
+                page.querySelectorAll('#CollectionSectionList label').forEach(function (label) {
+                    label.style.display =
+                        label.textContent.toLowerCase().indexOf(query) === -1 ? 'none' : 'block';
+                });
+            });
+
+            page.querySelector('#CollectionSectionConfigForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+                save(page);
+                return false;
+            });
+        })();
+    </script>
+</div>
+</body>
+</html>

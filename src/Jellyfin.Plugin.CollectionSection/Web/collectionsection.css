@@ -1,0 +1,41 @@
+/* Collection Section plugin styles */
+
+.collectionSection .collectionSectionTitleLink {
+    color: inherit;
+    text-decoration: none;
+}
+
+.collectionSection .collectionSectionTitleLink:hover {
+    text-decoration: underline;
+}
+
+/* Highlight style "ring": a border overlay drawn inside the card, on top of
+   the poster, so no parent overflow rule can clip it. Its radius is measured
+   at render time from the theme's actual card rounding (collectionsection.js)
+   and applied via --cs-ring-radius, so the corners always match the visible
+   card corners. Color: the theme's accent variable when defined, otherwise
+   the theme's text color (light on dark themes, dark on light themes). */
+.collectionSection[data-cs-highlight="ring"] .collectionSectionCurrent .cardScalable {
+    position: relative;
+}
+
+.collectionSection[data-cs-highlight="ring"] .collectionSectionCurrent .cardScalable::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border: 0.2em solid var(--theme-primary-color, currentColor);
+    border-radius: var(--cs-ring-radius, 0.2em);
+    pointer-events: none;
+}
+
+/* Highlight style "dim": every card except the current one is dimmed;
+   hovering or focusing a card restores it. */
+.collectionSection[data-cs-highlight="dim"] .card:not(.collectionSectionCurrent) {
+    opacity: 0.55;
+    transition: opacity 0.15s ease-out;
+}
+
+.collectionSection[data-cs-highlight="dim"] .card:not(.collectionSectionCurrent):hover,
+.collectionSection[data-cs-highlight="dim"] .card:not(.collectionSectionCurrent):focus-within {
+    opacity: 1;
+}

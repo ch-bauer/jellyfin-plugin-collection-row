@@ -1,0 +1,21 @@
+[
+  {
+    "guid": "b9f0c474-e1a9-4a06-9c8a-3f1d2e5b7a10",
+    "name": "Collection Section",
+    "description": "Shows the collection a movie belongs to as a row of native movie cards on the detail page.",
+    "overview": "Collection card row on the movie detail page.",
+    "owner": "Christian",
+    "category": "General",
+    "imageUrl": "",
+    "versions": [
+      {
+        "version": "1.1.0.0",
+        "changelog": "Configurable section position and highlight style, optional series support, auto-scroll to the current item.",
+        "targetAbi": "10.11.0.0",
+        "sourceUrl": "https://github.com/GITHUB_USER/jellyfin-plugin-collection-section/releases/download/v1.1.0.0/collection-section_1.1.0.0.zip",
+        "checksum": "856318937eb311d080d58ff1ad7224a3",
+        "timestamp": "2026-07-09T00:00:00Z"
+      }
+    ]
+  }
+]

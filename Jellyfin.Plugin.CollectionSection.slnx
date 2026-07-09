@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Jellyfin.Plugin.CollectionSection/Jellyfin.Plugin.CollectionSection.csproj" />
+  </Folder>
+</Solution>
