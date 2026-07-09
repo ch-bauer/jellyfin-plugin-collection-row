@@ -147,6 +147,38 @@
     }
 
     /**
+     * jellyfin-web stamps the active layout on the <html> element; mirror the
+     * native card behavior per layout (hover overlay on desktop, an
+     * always-visible play button on mobile, nothing on TV).
+     */
+    function getLayout() {
+        var classes = document.documentElement.classList;
+        if (classes.contains('layout-mobile')) {
+            return 'mobile';
+        }
+        if (classes.contains('layout-tv')) {
+            return 'tv';
+        }
+        if (classes.contains('layout-desktop')) {
+            return 'desktop';
+        }
+        return window.matchMedia && window.matchMedia('(pointer: coarse)').matches ? 'mobile' : 'desktop';
+    }
+
+    /**
+     * Mobile cards: a single always-visible play button in the bottom right,
+     * like native jellyfin-web mobile cards. No cardOverlayContainer wrapper
+     * and no -hover classes - those are what make buttons hover-only.
+     */
+    function buildMobilePlayButton(item, serverId) {
+        return '<button is="paper-icon-button-light" type="button" data-action="play" title="Play"'
+            + ' data-id="' + item.Id + '" data-serverid="' + serverId + '"'
+            + ' data-type="' + (item.Type || 'Movie') + '"'
+            + ' class="cardOverlayButton cardOverlayButton-br itemAction paper-icon-button-light">'
+            + '<span class="material-icons cardOverlayButtonIcon play_arrow" aria-hidden="true"></span></button>';
+    }
+
+    /**
      * Native jellyfin-web hover overlay (play, watched, favorite, menu buttons).
      * Same markup jellyfin-web injects on mouseenter; visibility/fade is handled
      * by the web client's own .card:hover CSS.
@@ -232,7 +264,12 @@
                 + '<span class="material-icons indicatorIcon check" aria-hidden="true"></span></div></div>';
         }
 
-        html += buildHoverOverlay(item, serverId);
+        var layout = getLayout();
+        if (layout === 'desktop') {
+            html += buildHoverOverlay(item, serverId);
+        } else if (layout === 'mobile') {
+            html += buildMobilePlayButton(item, serverId);
+        }
         html += '</div>';
         html += '<div class="cardText cardTextCentered cardText-first"><bdi>'
             + '<a href="' + href + '" data-id="' + item.Id + '" data-serverid="' + serverId + '"'

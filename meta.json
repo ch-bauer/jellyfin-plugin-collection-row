@@ -1,6 +1,6 @@
 {
   "category": "General",
-  "changelog": "Renamed to Collection Row; new plugin icon.",
+  "changelog": "Layout-aware card buttons: hover overlay on desktop, always-visible play button on mobile, none on TV.",
   "description": "Shows the collection a movie belongs to as a row of native movie cards on the detail page.",
   "guid": "b9f0c474-e1a9-4a06-9c8a-3f1d2e5b7a10",
   "imageUrl": "https://raw.githubusercontent.com/ch-bauer/jellyfin-plugin-collection-row/main/images/icon.png",
@@ -9,7 +9,7 @@
   "owner": "Christian",
   "targetAbi": "10.11.0.0",
   "timestamp": "2026-07-09T00:00:00.000Z",
-  "version": "1.2.0.0",
+  "version": "1.2.1.0",
   "status": "Active",
   "autoUpdate": false
 }
