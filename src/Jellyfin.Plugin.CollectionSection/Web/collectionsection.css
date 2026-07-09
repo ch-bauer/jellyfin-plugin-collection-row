@@ -22,9 +22,11 @@
 .collectionSection[data-cs-highlight="ring"] .collectionSectionCurrent .cardScalable::after {
     content: '';
     position: absolute;
-    inset: 0;
-    border: 0.2em solid var(--theme-primary-color, currentColor);
-    border-radius: var(--cs-ring-radius, 0.2em);
+    /* 1px outward overlap so no poster pixels show through at the edges;
+       themes that clip the card trim the excess flush. */
+    inset: -1px;
+    border: calc(0.2em + 1px) solid var(--theme-primary-color, currentColor);
+    border-radius: calc(var(--cs-ring-radius, 0.2em) + 1px);
     pointer-events: none;
 }
 
