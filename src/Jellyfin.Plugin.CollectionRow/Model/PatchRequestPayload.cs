@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Jellyfin.Plugin.CollectionSection.Model
+namespace Jellyfin.Plugin.CollectionRow.Model
 {
     public class PatchRequestPayload
     {

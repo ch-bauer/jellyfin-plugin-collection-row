@@ -1,11 +1,11 @@
 using Jellyfin.Data.Enums;
-using Jellyfin.Plugin.CollectionSection.Model;
+using Jellyfin.Plugin.CollectionRow.Model;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Entities.Movies;
 using MediaBrowser.Controller.Library;
 using Microsoft.Extensions.Logging;
 
-namespace Jellyfin.Plugin.CollectionSection.Services
+namespace Jellyfin.Plugin.CollectionRow.Services
 {
     /// <summary>
     /// Answers "which collections contain this item" from an in-memory map.

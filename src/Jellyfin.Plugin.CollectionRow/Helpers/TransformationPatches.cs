@@ -1,7 +1,7 @@
 using System.Reflection;
-using Jellyfin.Plugin.CollectionSection.Model;
+using Jellyfin.Plugin.CollectionRow.Model;
 
-namespace Jellyfin.Plugin.CollectionSection.Helpers
+namespace Jellyfin.Plugin.CollectionRow.Helpers
 {
     /// <summary>
     /// Callbacks invoked by the File Transformation plugin. Method signatures
@@ -18,11 +18,11 @@ namespace Jellyfin.Plugin.CollectionSection.Helpers
                 return contents;
             }
 
-            string js = ReadEmbeddedResource("Web.collectionsection.js");
-            string css = ReadEmbeddedResource("Web.collectionsection.css");
+            string js = ReadEmbeddedResource("Web.collectionrow.js");
+            string css = ReadEmbeddedResource("Web.collectionrow.css");
 
             string injection =
-                "\n<!-- CollectionSection plugin -->\n" +
+                "\n<!-- CollectionRow plugin -->\n" +
                 "<style>\n" + css + "\n</style>\n" +
                 "<script>\n" + js + "\n</script>\n";
 
@@ -32,7 +32,7 @@ namespace Jellyfin.Plugin.CollectionSection.Helpers
 
         private static string ReadEmbeddedResource(string relativeName)
         {
-            string resourceName = "Jellyfin.Plugin.CollectionSection." + relativeName;
+            string resourceName = "Jellyfin.Plugin.CollectionRow." + relativeName;
             using Stream? stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
 
             if (stream == null)

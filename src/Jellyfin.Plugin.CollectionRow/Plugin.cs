@@ -1,10 +1,10 @@
-using Jellyfin.Plugin.CollectionSection.Configuration;
+using Jellyfin.Plugin.CollectionRow.Configuration;
 using MediaBrowser.Common.Configuration;
 using MediaBrowser.Common.Plugins;
 using MediaBrowser.Model.Plugins;
 using MediaBrowser.Model.Serialization;
 
-namespace Jellyfin.Plugin.CollectionSection
+namespace Jellyfin.Plugin.CollectionRow
 {
     public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     {
@@ -16,7 +16,7 @@ namespace Jellyfin.Plugin.CollectionSection
 
         public static Plugin? Instance { get; private set; }
 
-        public override string Name => "Collection Section";
+        public override string Name => "Collection Row";
 
         public override Guid Id => Guid.Parse("b9f0c474-e1a9-4a06-9c8a-3f1d2e5b7a10");
 
@@ -29,7 +29,7 @@ namespace Jellyfin.Plugin.CollectionSection
             {
                 new PluginPageInfo
                 {
-                    Name = "CollectionSection",
+                    Name = "CollectionRow",
                     EmbeddedResourcePath = GetType().Namespace + ".Configuration.config.html"
                 }
             };

@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
-    <RootNamespace>Jellyfin.Plugin.CollectionSection</RootNamespace>
-    <AssemblyVersion>1.1.4.0</AssemblyVersion>
-    <FileVersion>1.1.4.0</FileVersion>
+    <RootNamespace>Jellyfin.Plugin.CollectionRow</RootNamespace>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
@@ -17,8 +17,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Configuration\config.html" />
-    <EmbeddedResource Include="Web\collectionsection.js" />
-    <EmbeddedResource Include="Web\collectionsection.css" />
+    <EmbeddedResource Include="Web\collectionrow.js" />
+    <EmbeddedResource Include="Web\collectionrow.css" />
   </ItemGroup>
 
 </Project>

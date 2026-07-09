@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Collection Section</title>
+    <title>Collection Row</title>
 </head>
 <body>
-<div id="CollectionSectionConfigPage" data-role="page" class="page type-interior pluginConfigurationPage"
+<div id="CollectionRowConfigPage" data-role="page" class="page type-interior pluginConfigurationPage"
      data-require="emby-checkbox,emby-button,emby-input,emby-select">
     <div data-role="content">
         <div class="content-primary">
-            <form id="CollectionSectionConfigForm">
+            <form id="CollectionRowConfigForm">
                 <div class="verticalSection">
-                    <h2 class="sectionTitle">Collection Section</h2>
+                    <h2 class="sectionTitle">Collection Row</h2>
                 </div>
 
                 <div class="selectContainer">
-                    <select is="emby-select" id="CollectionSectionPosition" label="Section position">
+                    <select is="emby-select" id="CollectionRowPosition" label="Section position">
                         <option value="aboveCast">Above Cast &amp; Crew</option>
                         <option value="belowCast">Below Cast &amp; Crew</option>
                         <option value="top">Top of the details</option>
@@ -22,7 +22,7 @@
                 </div>
 
                 <div class="selectContainer">
-                    <select is="emby-select" id="CollectionSectionHighlight" label="Highlight of the current item">
+                    <select is="emby-select" id="CollectionRowHighlight" label="Highlight of the current item">
                         <option value="ring">Frame around the poster</option>
                         <option value="dim">Dim the other items</option>
                         <option value="none">No highlight</option>
@@ -31,7 +31,7 @@
 
                 <div class="checkboxContainer">
                     <label>
-                        <input is="emby-checkbox" type="checkbox" id="CollectionSectionIncludeSeries"/>
+                        <input is="emby-checkbox" type="checkbox" id="CollectionRowIncludeSeries"/>
                         <span>Also show the section on series detail pages</span>
                     </label>
                 </div>
@@ -42,10 +42,10 @@
                         Untick a collection below to hide its section.</p>
                 </div>
                 <div class="inputContainer">
-                    <input is="emby-input" type="text" id="CollectionSectionSearch"
+                    <input is="emby-input" type="text" id="CollectionRowSearch"
                            label="Search collections" autocomplete="off"/>
                 </div>
-                <div id="CollectionSectionList" class="checkboxList paperList"
+                <div id="CollectionRowList" class="checkboxList paperList"
                      style="padding: 0.5em 1em;">
                     <p>Loading collections&hellip;</p>
                 </div>
@@ -88,11 +88,11 @@
                     var collections = (results[1] && results[1].Items) || [];
                     var disabled = (config.DisabledCollectionIds || []).map(normalizeId);
 
-                    page.querySelector('#CollectionSectionPosition').value = config.SectionPosition || 'aboveCast';
-                    page.querySelector('#CollectionSectionHighlight').value = config.HighlightStyle || 'ring';
-                    page.querySelector('#CollectionSectionIncludeSeries').checked = !!config.IncludeSeries;
+                    page.querySelector('#CollectionRowPosition').value = config.SectionPosition || 'aboveCast';
+                    page.querySelector('#CollectionRowHighlight').value = config.HighlightStyle || 'ring';
+                    page.querySelector('#CollectionRowIncludeSeries').checked = !!config.IncludeSeries;
 
-                    var list = page.querySelector('#CollectionSectionList');
+                    var list = page.querySelector('#CollectionRowList');
 
                     if (!collections.length) {
                         list.innerHTML = '<p>No collections found in your libraries.</p>';
@@ -110,11 +110,11 @@
                             + '</label>';
                     });
                     list.innerHTML = html;
-                    page.querySelector('#CollectionSectionSearch').value = '';
+                    page.querySelector('#CollectionRowSearch').value = '';
                     Dashboard.hideLoadingMsg();
                 }).catch(function () {
                     Dashboard.hideLoadingMsg();
-                    page.querySelector('#CollectionSectionList').innerHTML =
+                    page.querySelector('#CollectionRowList').innerHTML =
                         '<p>Failed to load collections.</p>';
                 });
             }
@@ -123,9 +123,9 @@
                 Dashboard.showLoadingMsg();
 
                 ApiClient.getPluginConfiguration(pluginId).then(function (config) {
-                    config.SectionPosition = page.querySelector('#CollectionSectionPosition').value;
-                    config.HighlightStyle = page.querySelector('#CollectionSectionHighlight').value;
-                    config.IncludeSeries = page.querySelector('#CollectionSectionIncludeSeries').checked;
+                    config.SectionPosition = page.querySelector('#CollectionRowPosition').value;
+                    config.HighlightStyle = page.querySelector('#CollectionRowHighlight').value;
+                    config.IncludeSeries = page.querySelector('#CollectionRowIncludeSeries').checked;
 
                     var disabled = [];
                     page.querySelectorAll('.collectionSectionCheckbox').forEach(function (checkbox) {
@@ -141,21 +141,21 @@
                 });
             }
 
-            var page = document.querySelector('#CollectionSectionConfigPage');
+            var page = document.querySelector('#CollectionRowConfigPage');
 
             page.addEventListener('pageshow', function () {
                 loadPage(page);
             });
 
-            page.querySelector('#CollectionSectionSearch').addEventListener('input', function () {
+            page.querySelector('#CollectionRowSearch').addEventListener('input', function () {
                 var query = this.value.toLowerCase();
-                page.querySelectorAll('#CollectionSectionList label').forEach(function (label) {
+                page.querySelectorAll('#CollectionRowList label').forEach(function (label) {
                     label.style.display =
                         label.textContent.toLowerCase().indexOf(query) === -1 ? 'none' : '';
                 });
             });
 
-            page.querySelector('#CollectionSectionConfigForm').addEventListener('submit', function (e) {
+            page.querySelector('#CollectionRowConfigForm').addEventListener('submit', function (e) {
                 e.preventDefault();
                 save(page);
                 return false;

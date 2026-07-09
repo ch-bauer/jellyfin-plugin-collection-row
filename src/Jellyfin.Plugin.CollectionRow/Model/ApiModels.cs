@@ -1,4 +1,4 @@
-namespace Jellyfin.Plugin.CollectionSection.Model
+namespace Jellyfin.Plugin.CollectionRow.Model
 {
     public record CollectionInfo(Guid Id, string Name);
 

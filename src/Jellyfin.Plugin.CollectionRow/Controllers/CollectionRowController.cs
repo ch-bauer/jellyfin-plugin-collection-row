@@ -1,6 +1,6 @@
-using Jellyfin.Plugin.CollectionSection.Configuration;
-using Jellyfin.Plugin.CollectionSection.Model;
-using Jellyfin.Plugin.CollectionSection.Services;
+using Jellyfin.Plugin.CollectionRow.Configuration;
+using Jellyfin.Plugin.CollectionRow.Model;
+using Jellyfin.Plugin.CollectionRow.Services;
 using MediaBrowser.Controller.Entities;
 using MediaBrowser.Controller.Entities.Movies;
 using MediaBrowser.Controller.Entities.TV;
@@ -8,16 +8,16 @@ using MediaBrowser.Controller.Library;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Jellyfin.Plugin.CollectionSection.Controllers
+namespace Jellyfin.Plugin.CollectionRow.Controllers
 {
     [ApiController]
-    [Route("CollectionSection")]
-    public class CollectionSectionController : ControllerBase
+    [Route("CollectionRow")]
+    public class CollectionRowController : ControllerBase
     {
         private readonly ILibraryManager m_libraryManager;
         private readonly CollectionLookupService m_lookupService;
 
-        public CollectionSectionController(ILibraryManager libraryManager, CollectionLookupService lookupService)
+        public CollectionRowController(ILibraryManager libraryManager, CollectionLookupService lookupService)
         {
             m_libraryManager = libraryManager;
             m_lookupService = lookupService;

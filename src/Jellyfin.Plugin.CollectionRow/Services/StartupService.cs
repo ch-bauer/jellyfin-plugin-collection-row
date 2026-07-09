@@ -1,22 +1,22 @@
 using System.Reflection;
 using System.Runtime.Loader;
 using System.Text.Json;
-using Jellyfin.Plugin.CollectionSection.Helpers;
+using Jellyfin.Plugin.CollectionRow.Helpers;
 using MediaBrowser.Model.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace Jellyfin.Plugin.CollectionSection.Services
+namespace Jellyfin.Plugin.CollectionRow.Services
 {
     /// <summary>
     /// Registers the index.html transformation with the File Transformation plugin on server startup.
     /// </summary>
     public class StartupService : IScheduledTask
     {
-        public string Name => "Collection Section Startup";
+        public string Name => "Collection Row Startup";
 
-        public string Key => "Jellyfin.Plugin.CollectionSection.Startup";
+        public string Key => "Jellyfin.Plugin.CollectionRow.Startup";
 
-        public string Description => "Registers the Collection Section web injection with the File Transformation plugin.";
+        public string Description => "Registers the Collection Row web injection with the File Transformation plugin.";
 
         public string Category => "Startup Services";
 
@@ -31,7 +31,7 @@ namespace Jellyfin.Plugin.CollectionSection.Services
 
         public Task ExecuteAsync(IProgress<double> progress, CancellationToken cancellationToken)
         {
-            m_logger.LogInformation("Collection Section startup. Registering file transformation.");
+            m_logger.LogInformation("Collection Row startup. Registering file transformation.");
 
             m_lookupService.Warm();
 
@@ -42,7 +42,7 @@ namespace Jellyfin.Plugin.CollectionSection.Services
             if (fileTransformationAssembly == null)
             {
                 m_logger.LogWarning(
-                    "File Transformation plugin was not found. The Collection Section plugin requires it to modify the web client. " +
+                    "File Transformation plugin was not found. The Collection Row plugin requires it to modify the web client. " +
                     "Install it from https://www.iamparadox.dev/jellyfin/plugins/manifest.json and restart Jellyfin.");
                 return Task.CompletedTask;
             }
@@ -83,7 +83,7 @@ namespace Jellyfin.Plugin.CollectionSection.Services
             object? payload = parseMethod.Invoke(null, new object?[] { payloadJson });
             registerMethod.Invoke(null, new[] { payload });
 
-            m_logger.LogInformation("Collection Section transformation registered.");
+            m_logger.LogInformation("Collection Row transformation registered.");
 
             return Task.CompletedTask;
         }

@@ -1,9 +1,9 @@
-using Jellyfin.Plugin.CollectionSection.Services;
+using Jellyfin.Plugin.CollectionRow.Services;
 using MediaBrowser.Controller;
 using MediaBrowser.Controller.Plugins;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Jellyfin.Plugin.CollectionSection
+namespace Jellyfin.Plugin.CollectionRow
 {
     public class PluginServiceRegistrator : IPluginServiceRegistrator
     {

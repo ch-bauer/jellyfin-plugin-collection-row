@@ -1,4 +1,4 @@
-/* Collection Section plugin styles */
+/* Collection Row plugin styles */
 
 .collectionSection .collectionSectionTitleLink {
     color: inherit;
@@ -11,7 +11,7 @@
 
 /* Highlight style "ring": a border overlay drawn inside the card, on top of
    the poster, so no parent overflow rule can clip it. Its radius is measured
-   at render time from the theme's actual card rounding (collectionsection.js)
+   at render time from the theme's actual card rounding (collectionrow.js)
    and applied via --cs-ring-radius, so the corners always match the visible
    card corners. Color: the theme's accent variable when defined, otherwise
    the theme's text color (light on dark themes, dark on light themes). */

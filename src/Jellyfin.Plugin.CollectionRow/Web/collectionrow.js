@@ -1,4 +1,4 @@
-/* Collection Section plugin - injected into index.html by the File Transformation plugin. */
+/* Collection Row plugin - injected into index.html by the File Transformation plugin. */
 (function () {
     'use strict';
 
@@ -9,7 +9,7 @@
 
     function log() {
         try {
-            console.debug.apply(console, ['[CollectionSection]'].concat([].slice.call(arguments)));
+            console.debug.apply(console, ['[CollectionRow]'].concat([].slice.call(arguments)));
         } catch (e) { /* ignore */ }
     }
 
@@ -53,7 +53,7 @@
 
         var apiClient = window.ApiClient;
         var userId = apiClient.getCurrentUserId();
-        var url = apiClient.getUrl('CollectionSection/Collections', { itemId: itemId });
+        var url = apiClient.getUrl('CollectionRow/Collections', { itemId: itemId });
 
         var promise = apiClient.getJSON(url).then(function (response) {
             var data = {
