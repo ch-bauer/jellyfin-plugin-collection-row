@@ -8,6 +8,9 @@ currently viewing is highlighted and automatically scrolled into view.
 
 If a movie is in several collections, one section per collection is shown.
 
+![Collection section](images/1.PNG)
+![Collection section with rounded theme](images/2.PNG)
+
 ## Configuration (Dashboard → Plugins → Collection Row)
 
 - **Section position**: above Cast & Crew (default), below Cast & Crew, or at the top of the details.
